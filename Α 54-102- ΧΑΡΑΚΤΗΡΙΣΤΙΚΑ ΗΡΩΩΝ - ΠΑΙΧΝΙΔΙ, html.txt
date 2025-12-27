@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<title>Ιλιάδα – Παιχνίδι Αντιστοίχισης</title>
+<style>
+body {
+  font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
+  background: linear-gradient(135deg,#fdfbfb,#ebedee);
+  margin:0; padding:20px;
+}
+h1 { text-align:center; color:#2c3e50; }
+#intro {
+  text-align:center; font-size:18px; margin-bottom:15px;
+}
+#game { display:flex; gap:20px; justify-content:space-between; }
+.column {
+  background:#ffffff;
+  padding:15px;
+  border-radius:16px;
+  width:32%;
+  box-shadow:0 6px 12px rgba(0,0,0,.15);
+}
+.column h3 { text-align:center; color:#34495e; }
+.item {
+  padding:12px;
+  margin:10px 0;
+  background:#ffeaa7;
+  border-radius:10px;
+  cursor:grab;
+  text-align:center;
+  font-weight:bold;
+}
+.dropzone {
+  padding:12px;
+  margin:10px 0;
+  background:#f1f2f6;
+  border:3px dashed #b2bec3;
+  border-radius:12px;
+  min-height:45px;
+  transition:.3s;
+}
+.dropzone:hover { background:#dfe6e9; }
+.correct { background:#55efc4 !important; border-color:#00b894; }
+.wrong { background:#fab1a0 !important; border-color:#d63031; }
+#scoreboard {
+  text-align:center; font-size:20px; margin-bottom:15px;
+}
+#badge {
+  text-align:center; font-size:22px; margin-top:15px; font-weight:bold;
+}
+</style>
+</head>
+<body>
+<h1>🏛️ Ιλιάδα Α 54–102</h1>
+<div id="intro">🎯 <b>Αποστολή:</b> Ταίριαξε σωστά <b>ήρωα → χαρακτηριστικό → στίχο</b> και κέρδισε πόντους!</div>
+<div id="scoreboard">⏱ Χρόνος: <span id="time">0</span> δευτ. | ⭐ Πόντοι: <span id="score">0</span></div>
+<div id="game">
+<div class="column">
+<h3>🦸 Ήρωες</h3>
+<div class="item" draggable="true" data-hero="Αχιλλέας">Αχιλλέας</div>
+<div class="item" draggable="true" data-hero="Κάλχας">Κάλχας</div>
+</div>
+<div class="column">
+<h3>🏷️ Χαρακτηριστικά</h3>
+<div class="dropzone" data-answer="Αχιλλέας|Προκλητικός, τολμηρός, θαρραλέος">Προκλητικός, τολμηρός, θαρραλέος</div>
+<div class="dropzone" data-answer="Αχιλλέας|Αναλαμβάνει πρωτοβουλίες">Αναλαμβάνει πρωτοβουλίες</div>
+<div class="dropzone" data-answer="Αχιλλέας|Προστατευτικός">Προστατευτικός</div>
+<div class="dropzone" data-answer="Κάλχας|Διορατικός – προφητικός">Διορατικός – προφητικός</div>
+<div class="dropzone" data-answer="Κάλχας|Μεγαλοπρεπής εμφάνιση">Μεγαλοπρεπής εμφάνιση</div>
+<div class="dropzone" data-answer="Κάλχας|Επιφυλακτικός, διστακτικός">Επιφυλακτικός, διστακτικός</div>
+</div>
+<div class="column">
+<h3>📜 Στίχοι</h3>
+<div class="dropzone" data-answer="Προκλητικός, τολμηρός, θαρραλέος">«βαρύ κανείς επάνω σου το χέρι δεν θα βάλει…»</div>
+<div class="dropzone" data-answer="Αναλαμβάνει πρωτοβουλίες">«και την δεκάτην τον λαόν συγκάλεσε ο Πηλείδης…»</div>
+<div class="dropzone" data-answer="Διορατικός – προφητικός">«που εγνώριζ’ όλα μέλλοντα, παρόντα, περασμένα»</div>
+<div class="dropzone" data-answer="Προστατευτικός">«μα τον Απόλλωνα… όσο εγώ ζω…»</div>
+<div class="dropzone" data-answer="Επιφυλακτικός, διστακτικός">«μόνον εσύ στοχάσου και όμοσέ μου…»</div>
+<div class="dropzone" data-answer="Μεγαλοπρεπής εμφάνιση">«τότε ο Θεστορίδης ο Κάλχας εσηκώθηκεν…»</div>
+</div>
+</div>
+<div id="controls" style="text-align:center;margin-top:20px;">
+<button onclick="restartGame()" style="padding:10px 20px;font-size:16px;border-radius:10px;cursor:pointer;">🔄 Ξαναπαίξε</button>
+</div>
+<div id="badge"></div>
+<div id="summary" style="display:none;margin-top:25px;background:#fff;padding:20px;border-radius:16px;box-shadow:0 6px 12px rgba(0,0,0,.15);">
+<h3>📝 Ανακεφαλαίωση – Συζητάμε στην τάξη</h3>
+<ul>
+<li><b>Αχιλλέας:</b> τολμηρός, προκλητικός, αναλαμβάνει πρωτοβουλίες και προστατεύει τον Κάλχα.</li>
+<li><b>Κάλχας:</b> διορατικός μάντης, επιφυλακτικός και επιβλητικός στην εμφάνιση.</li>
+<li>Οι χαρακτηρισμοί τεκμηριώνονται πάντα με <b>συγκεκριμένους στίχους</b> του Ομήρου.</li>
+<li>Στην Ιλιάδα, ο χαρακτήρας των ηρώων φαίνεται <b>μέσα από τα λόγια και τις πράξεις τους</b>.</li>
+</ul>
+<p><b>Ερώτηση:</b> Ποιος ήρωας σας εντυπωσίασε περισσότερο και γιατί;</p>
+</div>
+<script>
+let dragged;
+let score = 0;
+let time = 0;
+const timer = setInterval(()=>{ time++; document.getElementById('time').textContent=time; },1000);
+
+function shuffleElements(parent){
+ const elements = Array.from(parent.children);
+ for(let i=elements.length-1;i>0;i--){
+  const j = Math.floor(Math.random()*(i+1));
+  parent.appendChild(elements[j]);
+ }
+}
+
+function restartGame(){
+ document.querySelectorAll('.dropzone').forEach(z=>z.classList.remove('correct','wrong'));
+ score=0; time=0;
+ document.getElementById('score').textContent=score;
+ document.getElementById('badge').textContent='';
+ document.getElementById('summary').style.display='none';
+ shuffleElements(document.querySelectorAll('.column')[1]);
+ shuffleElements(document.querySelectorAll('.column')[2]);
+}
+
+document.querySelectorAll('.item').forEach(item=>{
+ item.addEventListener('dragstart',()=> dragged=item);
+});
+
+document.querySelectorAll('.dropzone').forEach(zone=>{
+ zone.addEventListener('dragover',e=>e.preventDefault());
+ zone.addEventListener('drop',()=>{
+ if(zone.classList.contains('correct')) return;
+ const expected = zone.dataset.answer;
+ if(dragged && expected.includes(dragged.textContent)){
+ zone.classList.add('correct'); score+=10;
+ } else {
+ zone.classList.add('wrong'); score-=5;
+ }
+ document.getElementById('score').textContent=score;
+ if(score>=60){
+ document.getElementById('badge').textContent='🏆 Μπράβο! Είσαι άριστος γνώστης του Ομήρου!';
+ document.getElementById('summary').style.display='block';
+ }
+ });
+});
+</script>
+</body>
+</html>
